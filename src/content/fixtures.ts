@@ -36,5 +36,11 @@ export const FIXTURES: Record<string, string> = {
       (3, 5, '2026-03-01', 8, 'CLOSED'), (4, 5, '2026-03-05', null, 'ACTIVE'),
       (5, 6, '2026-04-01', 15, 'CLOSED'), (6, 6, '2026-04-02', 14, 'ACTIVE'),
       (7, 4, '2026-04-03', 11, 'CLOSED');
+    create table emergency_events (id int primary key, org_id int, payload text);
+    insert into emergency_events values
+      (1, 4, '{"type":"FIRE","priority":2,"address":{"city":"Київ"},"units":[{"crew":1,"people":4},{"crew":2,"people":3}]}'),
+      (2, 5, '{"type":"RESCUE","priority":1,"address":{"city":"Львів"},"units":[{"crew":3,"people":5}]}'),
+      (3, 6, '{"type":"FIRE","priority":null,"address":{"city":"Одеса"},"units":[]}'),
+      (4, 4, '{"type":"FLOOD","priority":3,"address":{"city":"Київ"},"units":[{"crew":1,"people":2},{"crew":4,"people":6},{"crew":3,"people":2}]}');
   `,
 }
