@@ -4,7 +4,7 @@ import { FIXTURES } from '../content/fixtures'
 import type { Lesson, Outcome, Verdict } from '../model/types'
 import { execOracle, grade, openDb } from './engine'
 
-export function useLesson(lesson: Lesson, onPass: (id: string) => void) {
+export function useLesson(lesson: Lesson, onResult: (id: string, ok: boolean) => void) {
   const db = useRef<Promise<PGlite>>(null)
   const sql = useRef(lesson.starter)
   const [outcome, setOutcome] = useState<Outcome | null>(null)
@@ -42,7 +42,7 @@ export function useLesson(lesson: Lesson, onPass: (id: string) => void) {
         setOutcome(await execOracle(d, sql.current))
         const ok = await grade(d, lesson, sql.current)
         setVerdict(ok ? 'pass' : 'fail')
-        if (ok) onPass(lesson.id)
+        onResult(lesson.id, ok)
       }),
   }
 }
