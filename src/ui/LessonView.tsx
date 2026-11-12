@@ -22,6 +22,12 @@ export function LessonView({ lesson, outcome, verdict, hintsShown, busy, onNext,
       <p className="eyebrow">{lesson.module}</p>
       <h1>{lesson.title}</h1>
       <p className="theory">{lesson.theory}</p>
+      {lesson.example && (
+        <figure className="example">
+          <figcaption>Приклад</figcaption>
+          <pre>{lesson.example}</pre>
+        </figure>
+      )}
       <div className="task">
         <span className="label">Завдання</span>
         <p>{lesson.task}</p>
