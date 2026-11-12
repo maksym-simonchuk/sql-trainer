@@ -1,0 +1,19 @@
+:root { color-scheme: light dark; --gap: 16px; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; }
+main { max-width: 860px; margin: 0 auto; padding: var(--gap); }
+h1 { font-size: 1.4rem; margin: 0 0 8px; }
+.theory { white-space: pre-wrap; }
+.editor { border: 1px solid #8884; border-radius: 6px; overflow: hidden; }
+.editor .cm-editor { min-height: 140px; font-size: 16px; }
+.keys, .actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+button { min-height: 44px; min-width: 44px; padding: 0 14px; font: inherit; border-radius: 6px; border: 1px solid #8886; background: #8882; cursor: pointer; }
+.actions button:first-child { background: #2563eb; color: #fff; border-color: #2563eb; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #8884; padding: 4px 8px; text-align: left; white-space: nowrap; }
+td.null { color: #8888; font-style: italic; }
+.pass { color: #16a34a; font-weight: 600; }
+.fail, .error { color: #dc2626; white-space: pre-wrap; }
+.hint { background: #fde68a33; padding: 8px; border-radius: 6px; }
+.oracle { background: #f9731622; padding: 8px; border-radius: 6px; }
