@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { LESSONS } from './content/lessons'
+import { groupModules } from './lib/groupModules'
 import { useLesson } from './lib/useLesson'
+import { Icon } from './ui/Icon'
+import { LessonNav } from './ui/LessonNav'
 import { LessonView } from './ui/LessonView'
 
 const KEY = 'sql-trainer:done'
+const GROUPS = groupModules(LESSONS)
+
 const load = (): string[] => {
   try {
     return JSON.parse(localStorage.getItem(KEY) ?? '[]')
@@ -14,6 +19,7 @@ const load = (): string[] => {
 
 export function App() {
   const [idx, setIdx] = useState(0)
+  const [menu, setMenu] = useState(false)
   const [done, setDone] = useState(load)
   const lesson = LESSONS[idx]
   const state = useLesson(lesson, (id) =>
@@ -28,19 +34,37 @@ export function App() {
       return next
     }),
   )
+  const select = (i: number) => {
+    setIdx(i)
+    setMenu(false)
+    window.scrollTo({ top: 0 })
+  }
   return (
     <>
-      <nav className="nav">
-        <select value={idx} onChange={(e) => setIdx(+e.target.value)} aria-label="Урок">
-          {LESSONS.map((l, i) => (
-            <option key={l.id} value={i}>
-              {done.includes(l.id) ? '✓ ' : ''}
-              {l.title}
-            </option>
-          ))}
-        </select>
-      </nav>
-      <LessonView lesson={lesson} {...state} />
+      <header className="topbar">
+        <button type="button" className="icon-btn menu" onClick={() => setMenu(true)} aria-label="Меню уроків">
+          <Icon name="menu" />
+        </button>
+        <div className="logo">
+          <Icon name="db" size={22} /> SQL Trainer
+        </div>
+        <span className="spacer" />
+        <span className="count">
+          {done.length}/{LESSONS.length}
+        </span>
+      </header>
+      <div className="shell">
+        <LessonNav
+          groups={GROUPS}
+          idx={idx}
+          done={done}
+          total={LESSONS.length}
+          open={menu}
+          onSelect={select}
+          onClose={() => setMenu(false)}
+        />
+        <LessonView lesson={lesson} {...state} onNext={idx < LESSONS.length - 1 ? () => select(idx + 1) : null} />
+      </div>
     </>
   )
 }

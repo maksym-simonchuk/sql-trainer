@@ -3,6 +3,7 @@ import { oneDark } from '@codemirror/theme-one-dark'
 
 export const editorTheme = [
   oneDark,
+  EditorView.lineWrapping,
   EditorView.theme({
     '&': { fontSize: '15px', backgroundColor: 'var(--surface)' },
     '.cm-content': { fontFamily: 'var(--mono)', padding: '12px 0' },
