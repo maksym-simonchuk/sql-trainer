@@ -119,3 +119,6 @@ td.null { color: #64748b; font-style: italic; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 @media (max-width: 899px) { kbd { display: none; } }
+.review-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--oracle); background: #fb923c18; color: #fed7aa; font-weight: 500; }
+.review-btn:disabled { border-color: var(--border); background: none; color: var(--muted); }
+.review-btn b { font-variant-numeric: tabular-nums; }
