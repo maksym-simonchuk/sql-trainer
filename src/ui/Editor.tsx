@@ -3,6 +3,7 @@ import { basicSetup, EditorView } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { PLSQL, sql } from '@codemirror/lang-sql'
 import { SQL_KEYS } from '../model/constants'
+import { editorTheme } from '../lib/editorTheme'
 
 type Props = { initial: string; onChange: (v: string) => void; onRun: () => void }
 
@@ -18,6 +19,7 @@ export function Editor({ initial, onChange, onRun }: Props) {
       doc: initial,
       extensions: [
         basicSetup,
+        editorTheme,
         sql({ dialect: PLSQL }),
         keymap.of([{ key: 'Mod-Enter', run: () => (cb.current.onRun(), true) }]),
         EditorView.updateListener.of((u) => u.docChanged && cb.current.onChange(u.state.doc.toString())),
