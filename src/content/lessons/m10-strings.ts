@@ -9,6 +9,10 @@ export const M10: Lesson[] = [
     title: 'LISTAGG',
     fixture: 'sodu',
     theory: 'LISTAGG(x, \', \') WITHIN GROUP (ORDER BY …) склеює значення групи в один рядок. У проєкті — 59 разів.',
+    example: `select vtype,
+       listagg(plate, ', ') within group (order by plate) as plates
+  from vehicles
+ group by vtype;`,
     task: 'Для кожного crew_id виведіть names — full_name через ", " за алфавітом. Сортування за crew_id.',
     starter: `select crew_id
   from crew_staff
@@ -24,6 +28,8 @@ export const M10: Lesson[] = [
     title: 'UPPER, SUBSTR, LENGTH, ||',
     fixture: 'sodu',
     theory: 'Конкатенація — ||. SUBSTR(s, start, len) рахує з 1. UPPER/LOWER змінюють регістр.',
+    example: `select upper(name) || ' (' || length(name) || ')' as t
+  from crews;`,
     task: 'Виведіть id і code = перші 2 символи plate + "-" + id (наприклад AA-1) для всіх машин. Сортування за id.',
     starter: `select id, plate
   from vehicles
@@ -38,6 +44,8 @@ export const M10: Lesson[] = [
     title: 'TO_CHAR для дат',
     fixture: 'sodu',
     theory: "TO_CHAR(дата, 'YYYY-MM') перетворює дату на рядок за маскою. Зручно для групування по місяцях.",
+    example: `select to_char(order_date, 'DD.MM.YYYY') as d
+  from guard_orders;`,
     task: 'Порахуйте наряди по місяцях: колонки ym (YYYY-MM) і cnt. Сортування за ym.',
     starter: `select order_date
   from guard_orders`,
@@ -51,6 +59,9 @@ export const M10: Lesson[] = [
     title: 'Арифметика дат',
     fixture: 'sodu',
     theory: 'В Oracle дата + число = дата + N днів; різниця двох дат — кількість днів.',
+    example: `select order_date, order_date - 1 as yesterday
+  from guard_orders;
+-- дата ± число = дні`,
     task: 'Виведіть id і due = order_date + 7 для нарядів org_id = 5. Сортування за id.',
     starter: `select id, order_date
   from guard_orders

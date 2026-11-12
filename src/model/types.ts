@@ -2,7 +2,7 @@ export type Lesson = {
   id: string
   module: string
   title: string
-  theory: string
+  theory: string; example?: string
   task: string
   fixture: string
   starter: string

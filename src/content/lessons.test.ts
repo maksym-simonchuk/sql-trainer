@@ -11,3 +11,11 @@ describe.each(LESSONS)('lesson $id', (lesson) => {
     expect(await grade(db, lesson, lesson.starter)).toBe(false)
   })
 })
+
+describe.each(LESSONS.filter((l) => l.example))('example $id', (lesson) => {
+  it('runs without error', async () => {
+    const db = await openDb(FIXTURES[lesson.fixture])
+    const r = await execOracle(db, lesson.example!.split(';')[0])
+    expect(r).toMatchObject({ ok: true })
+  })
+})

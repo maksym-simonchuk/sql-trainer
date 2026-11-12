@@ -10,6 +10,9 @@ export const M1: Lesson[] = [
     fixture: 'sodu',
     theory:
       "NULL — «невідомо», а не нуль і не порожній рядок. Будь-яке порівняння з NULL дає не TRUE.\nNVL(x, y) повертає y, якщо x IS NULL. У реальних запитах проєкту це найчастіша функція.",
+    example: `select plate, nvl(fuel_pct, 0) as fuel
+  from vehicles;
+-- AA1002BB: fuel NULL → 0`,
     task: "Виведіть full_name і rank працівників; якщо звання немає — покажіть 'не вказано'. Колонка rank_name, сортування за id.",
     starter: `select full_name,
        rank as rank_name
@@ -26,6 +29,9 @@ export const M1: Lesson[] = [
     title: 'IS NULL, а не = NULL',
     fixture: 'sodu',
     theory: 'x = NULL ніколи не TRUE (результат UNKNOWN), тому рядки відсіюються.\nДля перевірки є лише IS NULL / IS NOT NULL.',
+    example: `select plate from vehicles
+ where crew_id is null;
+-- машини без караулу`,
     task: 'Знайдіть full_name працівників без звання (rank).',
     starter: `select full_name
   from crew_staff
@@ -39,6 +45,9 @@ export const M1: Lesson[] = [
     title: 'NULL в арифметиці',
     fixture: 'sodu',
     theory: 'NULL + 1 = NULL. Один NULL «заражає» весь вираз.\nЯкщо відсутнє значення логічно дорівнює 0 — загорніть у NVL.',
+    example: `select id, 100 - fuel_pct as spent
+  from vehicles;
+-- fuel_pct NULL → spent теж NULL`,
     task: 'Для кожного наряду (guard_orders) виведіть id і persons_number + 1 як p, де відсутнє persons_number рахується за 0. Сортування за id.',
     starter: `select id, persons_number + 1 as p
   from guard_orders
@@ -53,6 +62,9 @@ export const M1: Lesson[] = [
     title: 'NVL2: два варіанти',
     fixture: 'sodu',
     theory: 'NVL2(x, якщо_не_NULL, якщо_NULL) — компактний аналог CASE WHEN x IS NOT NULL.',
+    example: `select plate, nvl2(crew_id, 'у караулі', 'вільна') as state
+  from vehicles;
+-- nvl2(x, якщо_є, якщо_NULL)`,
     task: "Виведіть full_name і колонку has_rank: 'так' якщо звання є, інакше 'ні'. Сортування за id.",
     starter: `select full_name, rank as has_rank
   from crew_staff
@@ -68,6 +80,10 @@ export const M1: Lesson[] = [
     fixture: 'sodu',
     theory:
       "Класичний патерн проєкту: запис «діє», якщо date_till IS NULL або date_till > SYSDATE.\nАле date_till > SYSDATE сам по собі відкидає NULL — потрібна явна гілка.",
+    example: `select full_name from crew_staff
+ where date_till is null
+    or date_till > sysdate;
+-- лише діючі записи`,
     task: 'Виведіть full_name працівників, у яких є звання і які діючі (date_till порожнє або в майбутньому).',
     starter: `select full_name
   from crew_staff
@@ -83,6 +99,9 @@ export const M1: Lesson[] = [
     fixture: 'sodu',
     theory:
       'FETCH FIRST n ROWS ONLY — сучасна пагінація Oracle 12c+.\nУ Oracle NULL при сортуванні вважається найбільшим: ASC — в кінці, DESC — на початку. Керуйте через NULLS LAST / NULLS FIRST.',
+    example: `select plate, fuel_pct from vehicles
+ order by fuel_pct desc nulls last;
+-- NULL внизу списку`,
     task: 'Виведіть plate трьох машин з найбільшим fuel_pct (за спаданням); машини без даних про паливо не повинні потрапити першими.',
     starter: `select plate
   from vehicles

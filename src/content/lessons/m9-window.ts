@@ -9,6 +9,8 @@ export const M9: Lesson[] = [
     title: 'ROW_NUMBER() OVER',
     fixture: 'sodu',
     theory: 'Віконна функція рахує «по вікну» рядків, не склеюючи їх (на відміну від GROUP BY). ROW_NUMBER() OVER (ORDER BY …) нумерує рядки.',
+    example: `select plate, row_number() over (order by plate) as rn
+  from vehicles;`,
     task: 'Пронумеруйте наряди за order_date, потім id: колонки id, rn. Сортування за rn.',
     starter: `select id
   from guard_orders
@@ -23,6 +25,10 @@ export const M9: Lesson[] = [
     title: 'PARTITION BY: нумерація в групах',
     fixture: 'sodu',
     theory: 'PARTITION BY ділить вікно на групи: нумерація/суми починаються заново в кожній групі.',
+    example: `select vtype, plate,
+       row_number() over (partition by vtype order by fuel_pct) as rn
+  from vehicles;
+-- нумерація заново в кожному vtype`,
     task: 'Для кожного org_id пронумеруйте наряди від найновішого (order_date desc, id desc): колонки org_id, id, rn. Сортування за org_id, rn.',
     starter: `select org_id, id
   from guard_orders`,
@@ -36,6 +42,10 @@ export const M9: Lesson[] = [
     title: 'RANK vs DENSE_RANK',
     fixture: 'sodu',
     theory: 'RANK залишає «дірки» після рівних значень (1,1,3), DENSE_RANK — ні (1,1,2).',
+    example: `select id, fuel_pct,
+       rank() over (order by fuel_pct desc) as r
+  from vehicles;
+-- рівні значення → однаковий ранг, далі «діра»`,
     task: 'Виведіть id і dense_rank за fuel_pct по спаданню (колонка rnk) для машин, де fuel_pct не NULL. Сортування за rnk, id.',
     starter: `select id, fuel_pct
   from vehicles
@@ -50,6 +60,8 @@ export const M9: Lesson[] = [
     title: 'Наростаючий підсумок',
     fixture: 'sodu',
     theory: 'sum() over (order by …) дає наростаючу суму. У проєкті OVER() — 23 рази.',
+    example: `select id, sum(fuel_pct) over (order by id) as run
+  from vehicles;`,
     task: 'Виведіть id і наростаючу суму persons_number (колонка total) за order_date, id для нарядів зі status ACTIVE і persons_number не NULL. Сортування за id по зростанню.',
     starter: `select id, persons_number
   from guard_orders
@@ -65,6 +77,9 @@ export const M9: Lesson[] = [
     title: 'LAG: попередній рядок',
     fixture: 'sodu',
     theory: 'LAG(x) повертає x з попереднього рядка вікна (перший рядок → NULL).',
+    example: `select id, fuel_pct,
+       lag(fuel_pct) over (order by id) as prev
+  from vehicles;`,
     task: 'Для нарядів org_id = 4 виведіть id, persons_number і prev — persons_number попереднього наряду за order_date. Сортування за order_date.',
     starter: `select id, persons_number
   from guard_orders

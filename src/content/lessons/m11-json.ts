@@ -9,6 +9,9 @@ export const M11: Lesson[] = [
     title: 'JSON_VALUE',
     fixture: 'sodu',
     theory: "JSON_VALUE(col, '$.path') дістає скалярне значення з JSON-рядка. Шлях починається з $. У проєкті JSON_* — 1014 разів.",
+    example: `select json_value(payload, '$.priority') as prio
+  from emergency_events;
+-- payload: {"type":"FIRE","priority":2,...}`,
     task: "Виведіть id і type — значення '$.type' з payload для всіх emergency_events. Сортування за id.",
     starter: `select id, payload
   from emergency_events
@@ -23,6 +26,8 @@ export const M11: Lesson[] = [
     title: 'Вкладені шляхи',
     fixture: 'sodu',
     theory: "Вкладені ключі — через крапку: '$.address.city'.",
+    example: `select json_value(payload, '$.address.city') as city
+  from emergency_events;`,
     task: "Виведіть id події та city, де city = 'Київ'. Сортування за id.",
     starter: `select id
   from emergency_events`,
@@ -36,6 +41,11 @@ export const M11: Lesson[] = [
     title: 'JSON_TABLE: масив → рядки',
     fixture: 'sodu',
     theory: "JSON_TABLE розгортає JSON-масив у реляційні рядки: JSON_TABLE(col, '$.units[*]' COLUMNS (crew NUMBER PATH '$.crew')).",
+    example: `select e.id, u.people
+  from emergency_events e,
+       json_table(e.payload, '$.units[*]'
+         columns (people number path '$.people')) u;
+-- кожен елемент units → окремий рядок`,
     task: 'Виведіть id події, crew і people з масиву units. Події без units не потрібні. Колонки id, crew, people.',
     starter: `select e.id
   from emergency_events e`,

@@ -9,6 +9,10 @@ export const M7: Lesson[] = [
     title: 'WITH: іменований підзапит',
     fixture: 'sodu',
     theory: 'WITH x AS (select …) дає підзапиту ім’я, яке можна використати нижче як таблицю. Читабельніше за вкладені підзапити. У проєкті — 26 разів.',
+    example: `with low as (
+  select * from vehicles where fuel_pct < 40
+)
+select plate from low;`,
     task: 'Через WITH пораховайте людей у кожному караулі (cnt), потім виведіть crew_id і cnt лише для караулів, де cnt > 2.',
     starter: `with c as (
   select crew_id, count(*) as cnt
@@ -25,6 +29,9 @@ select * from c`,
     title: 'Два CTE поспіль',
     fixture: 'sodu',
     theory: 'Кілька CTE перелічуються через кому, наступний бачить попередні.',
+    example: `with a as (select id from crews where status = 'ON_DUTY'),
+     b as (select crew_id from vehicles)
+select a.id from a join b on b.crew_id = a.id;`,
     task: 'Побудуйте CTE staff_cnt (crew_id, cnt людей) і veh_cnt (crew_id, cnt машин). Виведіть crews.name, staff_cnt.cnt як staff, veh_cnt.cnt як veh для караулів, що є в обох CTE.',
     starter: `with staff_cnt as (
   select crew_id, count(*) as cnt from crew_staff group by crew_id

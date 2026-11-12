@@ -9,6 +9,10 @@ export const M12: Lesson[] = [
     title: 'OUTER APPLY: підзапит на кожен рядок',
     fixture: 'sodu',
     theory: 'OUTER APPLY (підзапит) виконує підзапит для кожного рядка зовнішньої таблиці й бачить її колонки. Як LEFT JOIN, але з корельованим підзапитом. У проєкті — 234 рази.',
+    example: `select c.name, v.cnt
+  from crews c
+  outer apply (select count(*) as cnt
+                 from vehicles v where v.crew_id = c.id) v;`,
     task: 'Для кожного караулу виведіть name і last_order — максимальну order_date нарядів його підрозділу (crews.org_id = guard_orders.org_id). Колонки name, last_order. Сортування за name.',
     starter: `select c.name
   from crews c
@@ -23,6 +27,9 @@ export const M12: Lesson[] = [
     title: 'FETCH FIRST n ROWS ONLY',
     fixture: 'sodu',
     theory: 'Oracle 12c+: ORDER BY … FETCH FIRST n ROWS ONLY — топ-N після сортування (безпечніше за ROWNUM).',
+    example: `select plate from vehicles
+ order by plate
+ fetch first 2 rows only;`,
     task: 'Виведіть id і persons_number трьох нарядів з найбільшим persons_number (NULL не враховувати). Сортування за persons_number desc.',
     starter: `select id, persons_number
   from guard_orders
@@ -39,6 +46,10 @@ export const M12: Lesson[] = [
     title: 'OFFSET … FETCH: сторінки',
     fixture: 'sodu',
     theory: 'OFFSET n ROWS FETCH NEXT m ROWS ONLY — пропустити n рядків і взяти m. Це пагінація.',
+    example: `select plate from vehicles
+ order by plate
+ offset 2 rows fetch next 2 rows only;
+-- сторінка 2 по 2`,
     task: 'Виведіть id нарядів, відсортованих за id, сторінка 2 по 3 рядки (пропустити 3, взяти 3).',
     starter: `select id
   from guard_orders
