@@ -1,5 +1,6 @@
 export type Lesson = {
   id: string
+  module: string
   title: string
   theory: string
   task: string
