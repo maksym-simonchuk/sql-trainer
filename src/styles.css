@@ -17,3 +17,5 @@ td.null { color: #8888; font-style: italic; }
 .fail, .error { color: #dc2626; white-space: pre-wrap; }
 .hint { background: #fde68a33; padding: 8px; border-radius: 6px; }
 .oracle { background: #f9731622; padding: 8px; border-radius: 6px; }
+.nav { padding: 8px var(--gap); border-bottom: 1px solid #8884; }
+.nav select { width: 100%; max-width: 860px; min-height: 44px; font: inherit; }
